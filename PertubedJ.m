@@ -8,7 +8,7 @@ function [J] = PertubedJ(nel,K,theta,nu,th,xx,yy,elem,constraint,Tri,g,cond,forc
 %%% Email: danny.smyl@aalto.fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dx = eps^(1/3); 
+dx = (eps/2)^(1/3); 
 nx = nel; % degrees of freedom
 nf = size(K,1); 
 J = zeros(nf,nx); 
