@@ -6,6 +6,5 @@ Rxtht = Rx*theta;
 Rytht = Ry*theta;
 tmp = ((Rxtht).^2 + (Rytht).^2 + beta);
 n=numel(tmp);
- Q=[spdiags(1./sqrt(tmp)-Rxtht.^2./tmp.^1.5,0,n,n) spdiags(-(Rxtht.*Rytht)./tmp.^1.5,0,n,n);
-     spdiags(-(Rytht.*Rxtht)./tmp.^1.5,0,n,n) spdiags(1./sqrt(tmp)-Rytht.^2./tmp.^1.5,0,n,n)];   
+Q=[spdiags(1./sqrt(tmp)-Rxtht.^2./tmp.^1.5,0,n,n) spdiags(-(Rxtht.*Rytht)./tmp.^1.5,0,n,n);spdiags(-(Rytht.*Rxtht)./tmp.^1.5,0,n,n) spdiags(1./sqrt(tmp)-Rytht.^2./tmp.^1.5,0,n,n)];   
 H=R'*Q*R;
