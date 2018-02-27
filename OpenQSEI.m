@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                  OpenQSEI Main Script                 %%%%
+%%%%                  OpenQSEI Main Script                %%%%
 %%%% This is an executable example of a compliant material %%%%
 %%%% with a unicorn inclusion                              %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +41,7 @@ SET_MAX_D =1;
 %%% Selection of prior type  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%TV prior%%%
-SET_TV_ON = 1;%%%% Health Warning: TV is not appropriate for highly inhomgeneous background %%%%
+SET_TV_ON =1;%%%% Health Warning: TV is not appropriate for highly inhomgeneous background %%%%
 
 %%%Weighted smoothness prior%%%
 FIRST_ORDER = 0;
@@ -50,7 +50,7 @@ FIRST_ORDER = 0;
 L_ON = 0;
 
 %%% Tikhonov regularization parameter %%%
-lambda = 10^-5;
+lambda = 10^-4;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%Adhoc Noise Weighting%%%%%%%
@@ -93,7 +93,7 @@ else
     Emin = 100;
     Evar = Emax-Emin;
     E = Emin + Evar*Eunicorn/max(Eunicorn);
-    Esim =  E;
+    Esim=  E;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,7 +154,7 @@ um = um + (meas_noise_coef*(max(um)-min(um)))*randn(size(um));
 %%% Make sure these coeficients are consistent with the simulated or
 %%% experimantal data
 Ehomguess = 5*ones(nel,1);
-Estep = 0.25*Ehomguess;
+Estep = 0.5*Ehomguess;
 [thetaexp] = BestHomogeneousE(Ehomguess,nu,th,x,y,Tri,um,Estep,constraint,Tri,g,cond,force);
 drawnow
 
@@ -177,7 +177,7 @@ beta = (1e-3)*max_difference^2;%%% beta may also be simply assigned a value %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 coef = 4;
 maxc = coef*thetaexp(1);%%% Define max value of smoothness distribution
-minc =  50;%%% Define min value of smoothness distribution
+minc =  0.1;%%% Define min value of smoothness distribution
 range = [minc maxc];
 var = (diff(range)/6)^2;
 corr_x = 1.0;%%% "corr" refers to the spatial correlation between distant points
