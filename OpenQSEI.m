@@ -13,7 +13,7 @@
 clear all
 
 %%% add path to your directory of choice %%%
-addpath (genpath ('C:\Users\danny\Dropbox\Danny\openEI_Isotropic'))
+addpath (genpath ('\\home.org.aalto.fi\smyld1\data\Desktop\SoftwareX Revision\OpenQSEI'))
 
 %%% triangular mesh generation: rectangular geometires %%%
 Lx=10;
@@ -248,6 +248,7 @@ cost_params.constraint = constraint;
 cost_params.cond = cond;
 cost_params.force = force;
 cost_params.lambda = lambda;
+cost_params.Ln = Ln;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Initialize Cost Function %%%%%%%%%%
@@ -302,7 +303,7 @@ for ii = 2:max_iter_GN
         dtheta=HH\zz;
     else
         %%%% unconstrained Tikhonov regularized solution %%%%
-        dtheta=inv(J'*J+lambda*eye(size(J'*J)))*(J'*[um - usim]);
+        dtheta=(J'*J+lambda*eye(size(J'*J)) +  Hessq + Hessq2)\(J'*[um - usim] -  gradq - gradq2);
     end
     
     %%% Linesearch to determine step size, sk %%%
