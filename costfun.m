@@ -67,4 +67,3 @@ if FIRST_ORDER
     smooth = 0.5*(E_GN - thetaexp(1)*ones(numel(E_GN),1))'*iGamma*(E_GN - thetaexp(1)*ones(numel(E_GN),1));
     Fnew = 0.5*norm(Ln*(um-usim))^2  + q + q2 + smooth;
 end
-
