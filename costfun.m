@@ -32,6 +32,7 @@ SET_MAX_D = cost_params.SET_MAX_D;
 SET_MIN_D = cost_params.SET_MIN_D;
 tmax = cost_params.tmax;
 lambda = cost_params.lambda;
+Ln = cost_params.Ln;
 
 minind = find(E_GN < minval);
 q = sum(aS2_1*(E_GN(minind)).^2 + bS2_1*E_GN(minind) + cS2_1);
@@ -55,15 +56,15 @@ if SET_TV_ON
     Rx = Rt(1:end/2,:);
     Ry = Rt(1+end/2:end,:);
     t = sum(Ai.*sqrt( Rx.^2 + Ry.^2 + beta ));
-    Fnew = 0.5*norm((um-usim))^2  + q + q2 + alpha*t;
+    Fnew = 0.5*norm(Ln*(um-usim))^2  + q + q2 + alpha*t;
 end
 
 if L_ON
-    Fnew = 0.5*norm((um-usim))^2 + 0.5*lambda*norm(E_GN);
+    Fnew = 0.5*norm(Ln*(um-usim))^2 + 0.5*lambda*norm(E_GN) + q + q2;
 end
 
 if FIRST_ORDER
     smooth = 0.5*(E_GN - thetaexp(1)*ones(numel(E_GN),1))'*iGamma*(E_GN - thetaexp(1)*ones(numel(E_GN),1));
-    Fnew = 0.5*norm((um-usim))^2  + q + q2 + smooth;
+    Fnew = 0.5*norm(Ln*(um-usim))^2  + q + q2 + smooth;
 end
 
