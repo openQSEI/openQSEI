@@ -36,6 +36,7 @@ cond = cost_params.cond;
 force = cost_params.force;
 SET_MAX_D = cost_params.SET_MAX_D;
 tmax = cost_params.tmax;
+nel = sNinv;
 
 if SET_TV_ON
     grad_TV = GradTV2D(R,theta,beta);
@@ -47,7 +48,7 @@ else
     Hess_TV = zeros((sNinv),(sNinv));
 end
 
-if SET_MIN_D
+if SET_MIN_D && ii > 1
     tminS_1 = minval;
     tminS2_1 = 0.99*minval;
     cost_params.tminS_1 = tminS_1;
@@ -59,14 +60,20 @@ if SET_MIN_D
     cost_params.aS2_1 = aS2_1;
     cost_params.bS2_1 = bS2_1;
     cost_params.cS2_1 = cS2_1;
-    gradq = zeros((sNinv),1);
-    Hessq = zeros((sNinv),(sNinv));
+    
+    dummy_t = theta;
+    minind = find(dummy_t < tminS_1);
+    gradq = zeros(nel,1);
+    Hessq = zeros(nel,nel);
+    gradq(minind) = 2*aS2_1*dummy_t(minind) + bS2_1;
+    Hessq(minind,minind) = diag(2*aS2_1*ones(length(minind),1));
+    
 else
     gradq = zeros((sNinv),1);
     Hessq = zeros((sNinv),(sNinv));
 end
 
-if SET_MAX_D
+if SET_MAX_D && ii > 1
     cost_params.tmax = tmax;
     tmax2 = 2*tmax;
     C3 = 1e-4;
@@ -80,6 +87,13 @@ if SET_MAX_D
     
     gradq2 = zeros((sNinv),1);
     Hessq2 = zeros((sNinv),(sNinv));
+    
+    maxind = find(dummy_t > tmax);
+    gradq2 = zeros(nel,1);
+    Hessq2 = zeros(nel,nel);
+    gradq2(maxind) = 2*a2*dummy_t(maxind,1) + b2;
+    Hessq2(maxind,maxind) = diag(2*a2*ones(length(maxind),1));
+    
 else
     gradq2 = zeros((sNinv),1);
     Hessq2 = zeros((sNinv),(sNinv));
