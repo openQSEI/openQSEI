@@ -256,6 +256,19 @@ cost_params.Ln = Ln;
 [Fnorm(1),usim] = costfun(theta(:,end),cost_params);
 F00 = Fnorm(1);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Initialize Constraint Coeffs %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+tmax2 = 1.1*tmax;
+C2 = 1e-3;
+Z = C2*Fnorm(1);
+a2 = -Z/((tmax^2-tmax2^2)-2*tmax*(tmax-tmax2));
+b2 = -2*a2*tmax;
+c2 = -a2*tmax^2-b2*tmax;
+cost_params.a2 = a2;
+cost_params.b2 = b2;
+cost_params.c2 = c2;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Getting Gradients and Hessians %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
